@@ -1,0 +1,17 @@
+{
+  "name": "backend-mastery",
+  "version": "1.0.0",
+  "description": "This is my backend mega project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "node",
+    "express",
+    "mongoose"
+  ],
+  "author": "Kamran Khan",
+  "license": "ISC"
+}

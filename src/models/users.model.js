@@ -30,11 +30,10 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      required: true,
+      required: true, //cloudinary URL use করা হবে
     },
     coverImage: {
-      type: String,
-      required: true,
+      type: String, //cloudinary URL use করা হবে
     },
     watchHistory: [
       {

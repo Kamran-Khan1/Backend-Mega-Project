@@ -1,11 +1,18 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs"; // Use promises for async file handling
+import env from "dotenv";
+
+env.config([
+  {
+    path: "../.env"
+  }
+])
 
 // Configuration
 cloudinary.config({
-  cloud_name: "kamran0",
-  api_key: 274274242276222,
-  api_secret: "wOViEc1-d93MeuEjb1DCVcUe66w",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 

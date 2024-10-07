@@ -29,14 +29,15 @@ const registerUser = asyncHandler(async (req, res) => {
   };
 
   //check if image is given by the user or not:- avatar
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  //const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  const avatarLocalPath = req.files?.avatar?.[0]?.path;
+  //const coverImageLocalPath = req.files?.coverImage[0]?.path;//This line
+  const coverImageLocalPath = req.files?.coverImage?.[0]?.path;//and this line is not equal see carefully
 
-  const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
   //We have to check if avatar was given by the user or not
   if (!avatarLocalPath) {
     throw new ApiErrors(400, "avatar is required")
   };
+
   //upload those image to cloudinary
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);

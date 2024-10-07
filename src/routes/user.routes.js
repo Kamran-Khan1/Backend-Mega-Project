@@ -12,7 +12,7 @@ router.route("/register").post(upload.fields([
         name: "coverImage",
         maxCount: 1,
     }
-]) ,registerUser);
+]), registerUser);
 
 export default router;
 

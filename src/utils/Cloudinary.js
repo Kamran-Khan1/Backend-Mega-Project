@@ -1,26 +1,29 @@
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs"; //File system এইটা দিয়ে ফাইল Handle করা হয়
+import fs from "fs"; // Use promises for async file handling
 
 // Configuration
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "kamran0",
+  api_key: 274274242276222,
+  api_secret: "wOViEc1-d93MeuEjb1DCVcUe66w",
 });
 
+
 // Upload a File
-const uploadOnCloudinary = async (fileUplaoadURL) => {
+const uploadOnCloudinary = async (localFilePath) => {
   try {
-    if (!fileUplaoadURL) return null;
-    //Upload the file on cloudinary
-    const uploadResult = await cloudinary.uploader.upload(fileUplaoadURL, {
-      resource_type: "auto",
-    });
-    //File upload successfully
-    console.log("File uploaded successfully in cloudinary");
-    return uploadResult;
+    if (!localFilePath) return null
+    //upload the file on cloudinary
+    const response = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "auto"
+    })
+    // file has been uploaded successfull
+    // console.log("file is uploaded on cloudinary ", response.url);
+    fs.unlinkSync(localFilePath)
+    return response;
+
   } catch (error) {
-    fs.unlink(fileUplaoadURL); //removed the locally saved temporary file as the upload operation got failed
+    fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
     return null;
   }
 };

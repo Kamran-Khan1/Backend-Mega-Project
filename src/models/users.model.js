@@ -54,6 +54,8 @@ userSchema.pre("save", async function (next) {
   next();
 }); //Arrow function use করা যাবে না কারন this keyword লাগবে
 
+
+//Bcrypt is validating user password 
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };

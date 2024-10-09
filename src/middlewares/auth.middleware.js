@@ -1,8 +1,9 @@
 import { ApiErrors } from "../utils/ApiErrors.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import User from "../db/index.js"
+import {User} from "../models/users.model.js"; // mistake to use model 
 import jwt from "jsonwebtoken"
 
+// console.log(process.env.ACCESS_TOKEN_SECRET);
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")

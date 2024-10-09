@@ -1,3 +1,4 @@
+import env from "dotenv"
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -48,6 +49,10 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+env.config({
+  path: "./.env",
+})
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
@@ -63,7 +68,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
-      _id: this.id,
+      _id: this._id, //I didn't gave _id 
       email: this.email,
       username: this.username,
       fullname: this.fullname,
@@ -75,10 +80,11 @@ userSchema.methods.generateAccessToken = function () {
   );
 };
 
-userSchema.methods.genarateRefreshToken = function () {
+console.log(process.env.REFRESH_TOKEN_SECRET);
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
-      _id: this.id,
+      _id: this._id,
     },
     process.env.REFRESH_TOKEN_SECRET,
     {

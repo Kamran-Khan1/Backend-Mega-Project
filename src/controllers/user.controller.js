@@ -7,16 +7,31 @@ import { uploadOnCloudinary } from "../utils/Cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
+    // Fetch the user by ID
     const user = await User.findById(userId);
+
+    if (!user) {
+      throw new ApiErrors(404, "User not found");
+    }
+
+    // Generate tokens
     const accessToken = user.generateAccessToken();
-    const refreshToken = user.genarateRefreshToken();
+    const refreshToken = user.generateRefreshToken(); // Fixed typo here
+
+    // Set the refresh token on the user document
     user.refreshToken = refreshToken;
-    await User.save({ validateBeforeSave: false });
-    return ({ accessToken, refreshToken });
+
+    // Save the user instance (not the User model)
+    await user.save({ validateBeforeSave: false });
+
+    // Return the generated tokens
+    return { accessToken, refreshToken };
   } catch (error) {
+    console.error(error); // Optional: log the actual error for debugging
     throw new ApiErrors(500, "Something went wrong saving refresh and access Token");
   }
-}
+};
+
 
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -98,12 +113,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const { username, email, password } = req.body;
 
-  if (!username || !email) {
+  if (!username && !email) {
     throw new ApiErrors(400, "username or password is required");
   };
 
   const user = await User.findOne({
-    $or: { username, email },
+    $or: [{username}, {email}], // This is a little mistake 😣
   });
 
   if (!user) {

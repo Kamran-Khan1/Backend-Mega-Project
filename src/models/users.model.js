@@ -80,7 +80,7 @@ userSchema.methods.generateAccessToken = function () {
   );
 };
 
-console.log(process.env.REFRESH_TOKEN_SECRET);
+// console.log(process.env.REFRESH_TOKEN_SECRET);
 userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
